@@ -1,0 +1,36 @@
+version: '3.1'
+services:
+ nginx1:
+  image: mynginx:v1
+  container_name: nginx_1
+  network_mode: bridge
+  depends_on:
+  - webService1
+  - webService2 
+  ports:
+  - "81:80"
+
+ redis1:
+  image: myredis:v1
+  container_name: redis_1
+  network_mode: bridge
+  ports:
+  - "6379:6379"
+
+ webService1:
+  image: counter_webservice:v1
+  container_name: webService_1
+  network_mode: bridge
+  depends_on:
+  - redis1
+  ports:
+  - "82:8080"
+
+ webService2:
+  image: counter_webservice:v1
+  container_name: webservice_2
+  network_mode: bridge
+  depends_on:
+  - redis1
+  ports:
+  - "83:8080"
